@@ -11,4 +11,6 @@ RUN env GOOS=$(uname -s | tr '[:upper:]' '[:lower:]') GOARCH=amd64 CGO_ENABLED=0
 ENV PATH /go/src/kube-psp-advisor:$PATH
 RUN apk del curl
 
-ENTRYPOINT ["kube-psp-advisor"]
+FROM scratch
+COPY --from=0 /go/src/kube-psp-advisor/kube-psp-advisor /
+ENTRYPOINT ["/kube-psp-advisor"]
